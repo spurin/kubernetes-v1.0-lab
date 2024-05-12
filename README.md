@@ -1,0 +1,1 @@
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/spurin/kubernetes-v1.0-lab.git&cloudshell_git_branch=main&cloudshell_tutorial=tutorial.md&shellonly=true)
