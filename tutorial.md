@@ -1,4 +1,4 @@
-This tutorial will allow you to run Kubernetes v1.0 - in your browser! 🚀
+This tutorial will allow you to run Kubernetes v1.0 - in your browser by making use of the Free Google Cloud Shell tier that can be used without enrollment, you're using it now! 🚀
 
 Credits to Carlos Santana, Amim Moises Salum Knabben & James Spurin
 
@@ -6,20 +6,20 @@ Carlos Santana kicked off the fun in the CNCF Ambassador chat room, sparking a b
 
 To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04, building it with cloudimg to capture the essence of that era.
 
-To begin, update apt and ignore any warnings
+To begin, change to the root directory, update apt and ignore any warnings -
 
 ```bash
-sudo apt update -y
+cd; sudo apt update -y
 ```
 
 
-We're going to use qemu for our virtual machine, install requirements -
+We're going to use qemu to run a virtual machine to host Kubernetes v1.0, install the requirements for qemu -
 
 ```bash
 sudo apt install -y qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager cloud-image-utils
 ```
 
-Download the Ubuntu 15.04 (uses cgroups v1) cloudimg disk image -
+Download the Ubuntu 15.04 (uses cgroups v1) cloudimg disk image, we'll be using this to run our virtual machine -
 
 ```bash
 wget http://cloud-images-archive.ubuntu.com/releases/vivid/release-20160203/ubuntu-15.04-server-cloudimg-amd64-disk1.img
@@ -31,21 +31,21 @@ Create a disk image -
 qemu-img create -f qcow2 -F qcow2 -b ubuntu-15.04-server-cloudimg-amd64-disk1.img my-vm-disk.qcow2 20G
 ```
 
-Configure an SSH Key for connectivity and set as a variable, we will use this to access our vm instance -
+And configure an SSH Key for connectivity, we'll set this as a variable and later on we will use this to access our vm instance -
 
 ```bash
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y
 SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 ````
 
-Create a cloudinit config that sets the ubuntu password and injects our public ssh key -
+Create a cloudinit config that sets the ubuntu password to "update" and injects our public ssh key, we'll use these when we start our vm -
 
 ```bash
 echo -e "#cloud-config\npassword: ubuntu\nchpasswd: { expire: False }\nssh_pwauth: True\nssh_authorized_keys:\n  - ${SSH_PUBLIC_KEY}" > user-data
 cloud-localds user-data.img user-data
 ```
 
-Open a new tab and run the following to emulate a VM using our disk image and cloudinit config. This will take a while to start -
+Open a new tab in cloudshell using the + icon, then, run the following in the new tab to emulate a vm using our disk image and cloudinit config. This will take a while to start -
 
 ```bash
 qemu-system-x86_64 \
