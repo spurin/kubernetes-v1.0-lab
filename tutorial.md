@@ -237,4 +237,16 @@ Query the available services -
 kubectl get svc
 ```
 
-And now you can curl that IP if you wish! Congratulations and looking forward to another 10 years of Kubernetes!
+Capture the svc IP -
+
+```bash
+SVC_IP=$(kubectl get svc | grep nginx | awk {'print $4'}); echo $SVC_IP
+```
+
+And now you can curl that IP -
+
+```bash
+curl $SVC_IP
+```
+
+Congratulations, you've successfully used Kubernetes v1.0. Here's to looking forward to another 10 years of Kubernetes!
