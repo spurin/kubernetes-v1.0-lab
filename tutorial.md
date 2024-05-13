@@ -160,7 +160,7 @@ If we check with kubectl get nodes, although it will connect to the API server, 
 kubectl get nodes
 ```
 
-Run the kubelet in the background as root and follow the logs, press ctrl-c when you're ready, this will continue to run in background. This will register this node with the api-server -
+Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press ctrl-c when you're ready, this will continue to run in background. This will register this node with the api-server -
 
 ```bash
 sudo bash -c 'kubelet --api-servers=http://localhost:8080 &> /var/log/kubelet.log &'; tail -f /var/log/kubelet.log
