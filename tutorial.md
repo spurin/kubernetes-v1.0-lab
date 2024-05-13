@@ -2,7 +2,7 @@
 
 This tutorial will allow you to run Kubernetes v1.0 - in your browser by making use of the Free Google Cloud Shell tier that can be used without enrollment, you're using it now! 🚀
 
-Credits to Carlos Santana, Amim Moises Salum Knabben & James Spurin
+>Credits to [Carlos Santana](https://github.com/csantanapr), [Amim Moises Salum Knabben](https://github.com/knabben) & [James Spurin](https://github.com/spurin)
 
 Carlos Santana kicked off the fun in the CNCF Ambassador chat room, sparking a brilliant idea to celebrate Kubernetes' 10-year anniversary! Amim dived deep, tackling key challenges and identifying core issues. Meanwhile, James Spurin whipped up some nifty workarounds. Together, they've crafted this engaging tutorial. Dive in, have fun, and join us in cheering for a fantastic decade of Kubernetes! 🎉
 
@@ -130,7 +130,7 @@ Run kube-apiserver in the background as root and follow the logs, press ctrl-c w
 sudo bash -c 'kube-apiserver --etcd-servers=http://localhost:2379 --service-cluster-ip-range=10.0.0.0/16 --bind-address=0.0.0.0 --insecure-bind-address=0.0.0.0 &> /var/log/kube-apiserver.log &'; tail -f /var/log/kube-apiserver.log
 ```
 
-With kube-apiserver running, we will be able to see this via cluster-info - 
+With kube-apiserver running, we will be able to see this via cluster-info -
 
 ```bash
 kubectl cluster-info
