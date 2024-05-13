@@ -197,13 +197,19 @@ sudo bash -c 'kube-proxy --master=http://localhost:8080 &> /var/log/kube-proxy.l
 Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 10 years old, we'll download this and pipe it direct to docker load -
 
 ```bash
-curl -L https://github.com/spurin/docker-hub-legacy-images/raw/main/nginx-1.7.tar | sudo docker load
+curl -L https://github.com/spurin/kubernetes-v1.0-lab/raw/main/images/nginx-1.7.tar | sudo docker load
 ```
 
 And we'll go back in time and make nginx:1.7 nginx:latest through a manual tag, allowing us to use nginx with no tag in kubernetes -
 
 ```bash
 sudo docker tag nginx:1.7 nginx:latest
+```
+
+We will also require a pause container image which at the time would have been 0.8.0 -
+
+```bash
+curl -L https://github.com/spurin/kubernetes-v1.0-lab/raw/main/images/gcr_io_google_containers_pause_0_8_0.tar | sudo docker load
 ```
 
 Show the available Docker images -

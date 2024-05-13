@@ -8,7 +8,7 @@
 
 ✨ This tutorial will allow you to run Kubernetes v1.0 - in your browser by making use of the Free Google Cloud Shell tier that can be used without enrollment. Click the "Open in Google Cloud Shell" button, sign in with Google, do not trust the repo (as we want to run this as an ephemeral environment that is discarded after use) and then follow the tutorial on the right hand side 🚀
 
-Credits to Carlos Santana, Amim Moises Salum Knabben & James Spurin
+Credits to [Carlos Santana](https://github.com/csantanapr), [Amim Moises Salum Knabben](https://github.com/knabben) & [James Spurin](https://github.com/spurin)
 
 Carlos Santana kicked off the fun in the CNCF Ambassador chat room, sparking a brilliant idea to celebrate Kubernetes' 10-year anniversary! Amim dived deep, tackling key challenges and identifying core issues. Meanwhile, James Spurin whipped up some nifty workarounds with this virtual environment.
 
