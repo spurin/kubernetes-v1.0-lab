@@ -55,8 +55,8 @@ Open a new tab in cloudshell using the + icon, then, run the following in the ne
 qemu-system-x86_64 \
   -drive file=my-vm-disk.qcow2,format=qcow2 \
   -drive file=user-data.img,format=raw \
-  -m 16384 \
-  -smp cores=4 \
+  -m 8192 \
+  -smp cores=2 \
   -nographic \
   -netdev user,id=usernet,hostfwd=tcp::2222-:22 -device virtio-net,netdev=usernet
 ```
