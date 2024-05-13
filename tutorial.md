@@ -26,13 +26,13 @@ sudo apt install -y qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils vi
 Download the Ubuntu 15.04 cloudimg disk image (uses cgroups v1), we'll be using this to run our virtual machine -
 
 ```bash
-wget http://cloud-images-archive.ubuntu.com/releases/utopic/release-20150723/ubuntu-14.10-server-cloudimg-amd64-disk1.img
+wget http://cloud-images-archive.ubuntu.com/releases/vivid/release-20160203/ubuntu-15.04-server-cloudimg-amd64-disk1.img
 ```
 
 Create a disk image -
 
 ```bash
-qemu-img create -f qcow2 -F qcow2 -b ubuntu-14.10-server-cloudimg-amd64-disk1.img my-vm-disk.qcow2 20G
+qemu-img create -f qcow2 -F qcow2 -b ubuntu-15.04-server-cloudimg-amd64-disk1.img my-vm-disk.qcow2 20G
 ```
 
 And configure an SSH Key for connectivity, we'll set this as a variable and later on we will use this to access our vm instance -
@@ -61,7 +61,7 @@ qemu-system-x86_64 \
   -netdev user,id=usernet,hostfwd=tcp::2222-:22 -device virtio-net,netdev=usernet
 ```
 
-Wait for cloud init to complete, you'll see a message similar to - "Cloud-init v. 0.7.6 finished" after the initial login prompt, go back to the previous cloudshell tab when ready.
+Wait for cloud init to complete, you'll see a message similar to - "Cloud-init v. 0.7.7 finished" after the initial login prompt, go back to the previous cloudshell tab when ready.
 
 SSH to our instance and accept the host key, may take a while to connect as our host entry is incorrect and we will need to wait for a DNS timeout. We will fix this when we're inside the instance as the next step -
 
@@ -176,25 +176,25 @@ If we show nodes, we will now see one node -
 kubectl get nodes
 ```
 
-Run the kube-scheduler in the background as root and follow the logs (expect to see no output), press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-scheduler in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-scheduler --master=http://localhost:8080 &> /var/log/kube-scheduler.log &'; tail -f /var/log/kube-scheduler.log
 ```
 
-Run the kube-controller-manager in the background as root and follow the logs, press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-controller-manager in the background as root and follow the logs,press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-controller-manager --master=http://localhost:8080 &> /var/log/kube-controller-manager.log &'; tail -f /var/log/kube-controller-manager.log
 ```
 
-Run the kube-proxy in the background as root and follow the logs (expect to see no output), press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-proxy in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-proxy --master=http://localhost:8080 &> /var/log/kube-proxy.log &'; tail -f /var/log/kube-proxy.log
 ```
 
-Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 9 years old, we'll download this and pipe it direct to docker load -
+Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 10 years old, we'll download this and pipe it direct to docker load -
 
 ```bash
 curl -L https://github.com/spurin/docker-hub-legacy-images/raw/main/nginx-1.7.tar | sudo docker load
