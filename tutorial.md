@@ -2,11 +2,13 @@
 
 This tutorial will allow you to run Kubernetes v1.0 - in your browser by making use of the Free Google Cloud Shell tier that can be used without enrollment, you're using it now! 🚀
 
-Credits to Carlos Santana, Amim Moises Salum Knabben & James Spurin
+>Credits to [Carlos Santana](https://github.com/csantanapr), [Amim Moises Salum Knabben](https://github.com/knabben) & [James Spurin](https://github.com/spurin)
 
 Carlos Santana kicked off the fun in the CNCF Ambassador chat room, sparking a brilliant idea to celebrate Kubernetes' 10-year anniversary! Amim dived deep, tackling key challenges and identifying core issues. Meanwhile, James Spurin whipped up some nifty workarounds. Together, they've crafted this engaging tutorial. Dive in, have fun, and join us in cheering for a fantastic decade of Kubernetes! 🎉
 
-To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04, building it with cloudimg to capture the essence of that era.
+Kubernetes was open sourced on June 6th, 2024, the first version with stable API [v1.0.0](https://github.com/kubernetes/kubernetes/releases/tag/v1.0.0) was released on July 13th, 2015, the first tag [v0.2](https://github.com/kubernetes/kubernetes/releases/tag/v0.2) was cut in September 9th, 2014
+
+To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04 (released on April 23rd, 2015), building it with cloudimg to capture the essence of that era.
 
 To begin, change to the root directory, update apt and ignore any warnings -
 
@@ -38,7 +40,7 @@ And configure an SSH Key for connectivity, we'll set this as a variable and late
 ```bash
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y
 SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
-````
+```
 
 Create a cloudinit config that sets the ubuntu password to "update" and injects our public ssh key, we'll use these when we start our vm -
 
@@ -99,7 +101,7 @@ tar xzvf etcd-v2.0.12-linux-amd64.tar.gz
 sudo install etcd-v2.0.12-linux-amd64/etcd /usr/local/bin
 ```
 
-Run etcd in the background as root and follow the logs, press ctrl-c when you're ready, this will continue to run in background -
+Run etcd in the background as root and follow the logs, press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'etcd --listen-client-urls http://0.0.0.0:2379 --advertise-client-urls http://localhost:2379 &> /var/log/etcd.log &'; tail -f /var/log/etcd.log
@@ -124,13 +126,13 @@ sudo install kubernetes/server/bin/kube-scheduler /usr/local/bin
 sudo install kubernetes/server/bin/kubelet /usr/local/bin
 ```
 
-Run kube-apiserver in the background as root and follow the logs, press ctrl-c when you're ready, this will continue to run in background -
+Run kube-apiserver in the background as `root` and follow the logs, press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-apiserver --etcd-servers=http://localhost:2379 --service-cluster-ip-range=10.0.0.0/16 --bind-address=0.0.0.0 --insecure-bind-address=0.0.0.0 &> /var/log/kube-apiserver.log &'; tail -f /var/log/kube-apiserver.log
 ```
 
-With kube-apiserver running, we will be able to see this via cluster-info - 
+With kube-apiserver running, we will be able to see this via cluster-info -
 
 ```bash
 kubectl cluster-info
@@ -162,7 +164,7 @@ If we check with kubectl get nodes, although it will connect to the API server, 
 kubectl get nodes
 ```
 
-Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press ctrl-c when you're ready, this will continue to run in background. This will register this node with the api-server -
+Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press `Ctrl-C` when you're ready, this will continue to run in background. This will register this node with the api-server. Click "Reject" when you get a popup with the title "Authorize Cloud Shell" this is not required, kubelet is checking if the node is running on a cloud provider vm.  -
 
 ```bash
 sudo bash -c 'kubelet --api-servers=http://localhost:8080 &> /var/log/kubelet.log &'; tail -f /var/log/kubelet.log
@@ -174,25 +176,25 @@ If we show nodes, we will now see one node -
 kubectl get nodes
 ```
 
-Run the kube-scheduler in the background as root and follow the logs (expect to see no output), press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-scheduler in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-scheduler --master=http://localhost:8080 &> /var/log/kube-scheduler.log &'; tail -f /var/log/kube-scheduler.log
 ```
 
-Run the kube-controller-manager in the background as root and follow the logs, press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-controller-manager in the background as root and follow the logs,press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-controller-manager --master=http://localhost:8080 &> /var/log/kube-controller-manager.log &'; tail -f /var/log/kube-controller-manager.log
 ```
 
-Run the kube-proxy in the background as root and follow the logs (expect to see no output), press ctrl-c when you're ready, this will continue to run in background -
+Run the kube-proxy in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-proxy --master=http://localhost:8080 &> /var/log/kube-proxy.log &'; tail -f /var/log/kube-proxy.log
 ```
 
-Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 9 years old, we'll download this and pipe it direct to docker load -
+Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 10 years old, we'll download this and pipe it direct to docker load -
 
 ```bash
 curl -L https://github.com/spurin/docker-hub-legacy-images/raw/main/nginx-1.7.tar | sudo docker load
