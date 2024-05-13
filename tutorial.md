@@ -8,7 +8,7 @@ Carlos Santana kicked off the fun in the CNCF Ambassador chat room, sparking a b
 
 Kubernetes was open sourced on June 6th, 2024, the first version with stable API [v1.0.0](https://github.com/kubernetes/kubernetes/releases/tag/v1.0.0) was released on July 13th, 2015, the first tag [v0.2](https://github.com/kubernetes/kubernetes/releases/tag/v0.2) was cut in September 9th, 2014
 
-To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04 (Released in 2015), building it with cloudimg to capture the essence of that era.
+To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04 (released on April 23rd, 2015), building it with cloudimg to capture the essence of that era.
 
 To begin, change to the root directory, update apt and ignore any warnings -
 
