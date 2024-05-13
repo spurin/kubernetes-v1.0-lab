@@ -10,6 +10,8 @@ Kubernetes was open sourced on June 6th, 2024, the first version with stable API
 
 To make this work, we need to take a step back in time since container-based environments using cgroups v2 won’t be suitable. Container solutions rely on Kernel-level operations, and without altering Kernel configurations, we can't switch back from cgroups v2. Therefore, we're opting to construct a virtual machine that mirrors the past. We'll specifically use Ubuntu 15.04 (released on April 23rd, 2015), building it with cloudimg to capture the essence of that era.
 
+Read the [documentation](https://github.com/kubernetes/kubernetes/blob/v1.0.0/docs/README.md) for Kubernetes v1.0, and explore which APIs have been removed and added since then at the [API Timeline](https://kube-api.ninja).
+
 To begin, change to the root directory, update apt and ignore any warnings -
 
 ```bash
@@ -167,7 +169,7 @@ kubectl get nodes
 Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press `Ctrl-C` when you're ready, this will continue to run in background. This will register this node with the api-server. Click "Reject" when you get a popup with the title "Authorize Cloud Shell" this is not required, kubelet is checking if the node is running on a cloud provider vm.  -
 
 ```bash
-sudo bash -c 'kubelet --api-servers=http://localhost:8080 &> /var/log/kubelet.log &'; tail -f /var/log/kubelet.log
+sudo bash -c 'kubelet --api-servers=http://localhost:8080 --pod-infra-container-image="registry.k8s.io/pause:0.8.0" &> /var/log/kubelet.log &'; tail -f /var/log/kubelet.log
 ```
 
 If we show nodes, we will now see one node -
@@ -244,7 +246,7 @@ kubectl get svc
 Capture the svc IP -
 
 ```bash
-SVC_IP=$(kubectl get svc | grep nginx | awk {'print $4'}); echo $SVC_IP
+SVC_IP=$(kubectl get svc nginx -o template --template={{.spec.clusterIP}})
 ```
 
 And now you can curl that IP -
