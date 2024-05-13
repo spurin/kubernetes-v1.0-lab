@@ -57,15 +57,15 @@ qemu-system-x86_64 \
   -netdev user,id=usernet,hostfwd=tcp::2222-:22 -device virtio-net,netdev=usernet
 ```
 
-Wait for cloud init to complete, you'll see something like - "Cloud-init v. 0.7.7 finished", go back to the previous tab when ready.
+Wait for cloud init to complete, you'll see a message similar to - "Cloud-init v. 0.7.7 finished" after the initial login prompt, go back to the previous cloudshell tab when ready.
 
-SSH to our instance, may take a while to connect as our host entry is incorrect and we will need to wait for a DNS timeout, we'll fix this when we're inside the instance -
+SSH to our instance, may take a while to connect as our host entry is incorrect and we will need to wait for a DNS timeout. We will fix this when we're inside the instance as the next step -
 
 ```bash
 ssh -p 2222 ubuntu@localhost
 ```
 
-Fix ubuntu hostname resolution, run once and ignore errors -
+Fix ubuntu hostname resolution, run once and ignore any errors -
 
 ```bash
 echo $(hostname -I | awk {'print $1'}) ubuntu | sudo tee -a /etc/hosts
