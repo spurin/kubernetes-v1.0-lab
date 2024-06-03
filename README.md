@@ -20,7 +20,11 @@ Together, they've crafted this engaging tutorial. Dive in, have fun, and join us
 
 [Anders Björklund](https://github.com/afbjorklund) has also done some great work, allowing you to run the pre-requisite VM environment yourself with [Lima VM](https://github.com/lima-vm/lima).
 
-Start the instance with `limactl start --tty=false --cpus 2 --memory 8 limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml`
+Start the instance with  -
+
+```
+limactl start --tty=false --cpus 2 --memory 8 limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml
+```
 
 Example usage -
 
