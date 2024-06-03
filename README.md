@@ -20,14 +20,12 @@ Together, they've crafted this engaging tutorial. Dive in, have fun, and join us
 
 [Anders Björklund](https://github.com/afbjorklund) has also done some great work, allowing you to run the pre-requisite VM environment yourself with [Lima VM](https://github.com/lima-vm/lima).
 
-Save the following file locally - [lima.yaml](lima.yaml)
-
-Then start the instance with `limactl start --tty=false --cpus 2 --memory 8 lima.yaml`
+Start the instance with `limactl start --tty=false --cpus 2 --memory 8 limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml`
 
 Example usage -
 
 ```
-% limactl start --tty=false --cpus 2 --memory 8 lima.yaml
+% limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml
 INFO[0000] Terminal is not available, proceeding without opening an editor
 INFO[0000] Starting the instance "lima" with VM driver "qemu"
 INFO[0000] Attempting to download the image              arch=x86_64 digest="sha256:a348500d04de3352af3944e9dae99a08d60091221e1370941b93bd7a27971568" location="http://cloud-images-archive.ubuntu.com/releases/vivid/release-20160203/ubuntu-15.04-server-cloudimg-amd64-disk1.img"
