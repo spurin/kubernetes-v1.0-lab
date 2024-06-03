@@ -47,8 +47,7 @@ SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 Create a cloudinit config that sets the ubuntu password to "update" and injects our public ssh key, we'll use these when we start our vm -
 
 ```bash
-echo -e "#cloud-config\npassword: ubuntu\nchpasswd: { expire: False }\nssh_pwauth: True\nssh_authorized_keys:\n  - ${SSH_PUBLIC_KEY}" > user-data
-cloud-localds user-data.img user-data
+echo -e "#cloud-config\nhostname: ubuntu\nmanage_etc_hosts: true\npassword: ubuntu\nchpasswd: { expire: False }\nssh_pwauth: True\nssh_authorized_keys:\n  - ${SSH_PUBLIC_KEY}" > user-data; cloud-localds user-data.img user-data
 ```
 
 Open a new tab in cloudshell using the + icon, then, run the following in the new tab to emulate a vm using our disk image and cloudinit config. This will take a while to start -
@@ -65,22 +64,22 @@ qemu-system-x86_64 \
 
 Wait for cloud init to complete, you'll see a message similar to - "Cloud-init v. 0.7.7 finished" after the initial login prompt, go back to the previous cloudshell tab when ready.
 
-SSH to our instance and accept the host key, may take a while to connect as our host entry is incorrect and we will need to wait for a DNS timeout. We will fix this when we're inside the instance as the next step -
+SSH to our instance and accept the host key -
 
 ```bash
 ssh -p 2222 -o StrictHostKeyChecking=no ubuntu@localhost
-```
-
-Fix our hostname resolution, run once and ignore the sudo error which relates to this current misconfiguration, after this step sudo can be used without any errors -
-
-```bash
-echo $(hostname -I | awk {'print $1'}) ubuntu | sudo tee -a /etc/hosts
 ```
 
 We'll patch the system to give ourselves a working packages system for anything we may need by pointing repositories at the old-releases archives, may take a while to run -
 
 ```bash
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup && sudo sed -i 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' /etc/apt/sources.list && sudo sed -i 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' /etc/apt/sources.list && sudo apt update
+```
+
+Our system certificates are also out of date, preventing the use of TLS with external targets, refresh the system certificates, this may also take a while to run -
+
+```bash
+sudo wget --no-check-certificate https://curl.se/ca/cacert.pem -O /usr/local/share/ca-certificates/cacert.crt; sudo rm -rf /etc/ssl/certs/*; sudo update-ca-certificates --fresh
 ```
 
 Check for cgroups v1, it should say tmpfs -
@@ -157,7 +156,7 @@ kubectl config view
 And show that a .kube/config exists with the same data -
 
 ```bash
-cat .kube/config
+cat ~/.kube/config
 ```
 
 If we check with kubectl get nodes, although it will connect to the API server, currently we will have no nodes -
@@ -178,40 +177,48 @@ If we show nodes, we will now see one node -
 kubectl get nodes
 ```
 
-Run the kube-scheduler in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
+Run the kube-scheduler in the background as root and follow the logs (expect to see no output), press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-scheduler --master=http://localhost:8080 &> /var/log/kube-scheduler.log &'; tail -f /var/log/kube-scheduler.log
 ```
 
-Run the kube-controller-manager in the background as root and follow the logs,press `Ctrl-C` when you're ready, this will continue to run in background -
+Run the kube-controller-manager in the background as root and follow the logs, press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-controller-manager --master=http://localhost:8080 &> /var/log/kube-controller-manager.log &'; tail -f /var/log/kube-controller-manager.log
 ```
 
-Run the kube-proxy in the background as root and follow the logs (expect to see no output),press `Ctrl-C` when you're ready, this will continue to run in background -
+Run the kube-proxy in the background as root and follow the logs (expect to see no output), press `Ctrl-C` when you're ready, this will continue to run in background -
 
 ```bash
 sudo bash -c 'kube-proxy --master=http://localhost:8080 &> /var/log/kube-proxy.log &'; tail -f /var/log/kube-proxy.log
 ```
 
-Docker Hub will not work, owing to changes in the registry standards, therefore we will manually need to load images. We're going to load nginx:1.7 which at the time is 10 years old, we'll download this and pipe it direct to docker load -
+Pulling container images from Docker Hub may fail due to changes in registry standards. Originally, Docker Hub utilized v1 registry standards, which have been deprecated in favor of the newer v2 standards recognized today. As a result, attempts to pull container images from Kubernetes to Docker Hub using the old standards will not succeed. However, there is a workaround to this issue.
+
+To bypass the v1/v2 compatibility problem, preload the necessary images. This involves saving the images into a tar file and then manually loading them using the docker load command. For a more convenient method, Skopeo can be used to directly save images from Docker Hub into a tar file. Start by downloading and preparing Skopeo for this purpose.
 
 ```bash
-curl -L https://github.com/spurin/kubernetes-v1.0-lab/raw/main/images/nginx-1.7.tar | sudo docker load
+sudo curl -L https://github.com/lework/skopeo-binary/releases/download/v1.14.4/skopeo-linux-amd64 -o /usr/bin/skopeo && sudo chmod 755 /usr/bin/skopeo; sudo mkdir -p /etc/containers; sudo echo '{ "default": [ { "type": "insecureAcceptAnything" } ] }' | sudo tee /etc/containers/policy.json
 ```
 
-And we'll go back in time and make nginx:1.7 nginx:latest through a manual tag, allowing us to use nginx with no tag in kubernetes -
+Create a convenient shell function that uses skopeo and docker load to preload images, you can use this function for any other images that you wish to use -
 
 ```bash
-sudo docker tag nginx:1.7 nginx:latest
+skopeo-save-load() { local safe_image_name=$(echo "$1" | tr '/:' '_'); local tar_path="/tmp/${safe_image_name}.tar"; skopeo copy "docker://$1" "docker-archive:${tar_path}:$1"; sudo docker load -i "$tar_path"; rm -f "$tar_path"; }
 ```
 
-We will also require a pause container image which at the time would have been 0.8.0 -
+Preload nginx:latest -
 
 ```bash
-curl -L https://github.com/spurin/kubernetes-v1.0-lab/raw/main/images/gcr_io_google_containers_pause_0_8_0.tar | sudo docker load
+skopeo-save-load nginx:latest
+```
+
+Preload registry.k8s.io/pause:0.8.0 -
+
+```bash
+skopeo-save-load registry.k8s.io/pause:0.8.0
 ```
 
 Show the available Docker images -
