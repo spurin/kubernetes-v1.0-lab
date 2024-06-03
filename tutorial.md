@@ -233,10 +233,10 @@ Let's try out Kubernetes v1.0. The syntax is different, we'll run 5 pods which i
 kubectl run nginx --image=nginx --replicas=5
 ```
 
-Check the pods until they are running -
+Watch the pods until they are running -
 
 ```bash
-kubectl get pods
+watch kubectl get pods
 ```
 
 As Docker is the container runtime, you will be able to see the pods running in docker as well -
