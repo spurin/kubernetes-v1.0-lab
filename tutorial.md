@@ -165,7 +165,7 @@ If we check with kubectl get nodes, although it will connect to the API server, 
 kubectl get nodes
 ```
 
-Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press `Ctrl-C` when you're ready, this will continue to run in background. This will register this node with the api-server. Click "Reject" when you get a popup with the title "Authorize Cloud Shell" this is not required, kubelet is checking if the node is running on a cloud provider vm.  -
+Run the kubelet in the background as root and follow the logs, you're looking for a message similar to "Successfully registered node ubuntu", press `Ctrl-C` when you're ready, this will continue to run in background. This will register this node with the api-server. Click "Reject" if you get a popup with the title "Authorize Cloud Shell" this is not required, kubelet is checking if the node is running on a cloud provider vm.  -
 
 ```bash
 sudo bash -c 'kubelet --api-servers=http://localhost:8080 --pod-infra-container-image="registry.k8s.io/pause:0.8.0" &> /var/log/kubelet.log &'; tail -f /var/log/kubelet.log
