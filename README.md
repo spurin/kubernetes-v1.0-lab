@@ -16,6 +16,16 @@ Together, they've crafted this engaging tutorial. Dive in, have fun, and join us
 
 [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/spurin/kubernetes-v1.0-lab.git&cloudshell_git_branch=main&cloudshell_tutorial=tutorial.md&shellonly=true)
 
+## Run in Lima VM
+
+[Anders Björklund](https://github.com/afbjorklund) has also done some great work, allowing you to run the pre-requisite VM environment yourself with [Lima VM](https://github.com/lima-vm/lima).
+
+Save the following gist as a file - [lima.yaml](https://gist.github.com/afbjorklund/c99634a2a34aa3315f7d7db0f54526f6])
+
+Then start the instance with `limactl start --cpus 2 --memory 8 lima.yaml`
+
+You can then follow the [tutorial](tutorial.md) onwards from the VM initialisation and access stage.
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=spurin/kubernetes-v1.0-lab&type=Date)](https://star-history.com/#spurinkubernetes-v1.0-lab&Date)
