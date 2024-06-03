@@ -20,11 +20,42 @@ Together, they've crafted this engaging tutorial. Dive in, have fun, and join us
 
 [Anders Björklund](https://github.com/afbjorklund) has also done some great work, allowing you to run the pre-requisite VM environment yourself with [Lima VM](https://github.com/lima-vm/lima).
 
-Save the following gist as a file - [lima.yaml](https://gist.github.com/afbjorklund/c99634a2a34aa3315f7d7db0f54526f6)
+Save the following file locally - [lima.yaml](lima.yaml)
 
-Then start the instance with `limactl start --cpus 2 --memory 8 lima.yaml`
+Then start the instance with `limactl start --tty=false --cpus 2 --memory 8 lima.yaml`
 
-You can then follow the [tutorial](tutorial.md) onwards from the VM initialisation and access stage.
+Example usage -
+
+```
+% limactl start --tty=false --cpus 2 --memory 8 lima.yaml
+INFO[0000] Terminal is not available, proceeding without opening an editor
+INFO[0000] Starting the instance "lima" with VM driver "qemu"
+INFO[0000] Attempting to download the image              arch=x86_64 digest="sha256:a348500d04de3352af3944e9dae99a08d60091221e1370941b93bd7a27971568" location="http://cloud-images-archive.ubuntu.com/releases/vivid/release-20160203/ubuntu-15.04-server-cloudimg-amd64-disk1.img"
+INFO[0000] Using cache "/Users/james/Library/Caches/lima/download/by-url-sha256/77c902f99f70b354e56b996968a3838834ff4616a650c2a3b45490ba26927ac8/data"
+INFO[0000] [hostagent] hostagent socket created at /Users/james/.lima/lima/ha.sock
+INFO[0000] [hostagent] Starting QEMU (hint: to watch the boot progress, see "/Users/james/.lima/lima/serial*.log")
+INFO[0000] SSH Local Port: 51278
+INFO[0000] [hostagent] Waiting for the essential requirement 1 of 2: "ssh"
+INFO[0028] [hostagent] Waiting for the essential requirement 1 of 2: "ssh"
+INFO[0038] [hostagent] Waiting for the essential requirement 1 of 2: "ssh"
+INFO[0051] [hostagent] The essential requirement 1 of 2 is satisfied
+INFO[0051] [hostagent] Waiting for the essential requirement 2 of 2: "user session is ready for ssh"
+INFO[0051] [hostagent] The essential requirement 2 of 2 is satisfied
+INFO[0051] [hostagent] Waiting for the guest agent to be running
+INFO[0051] [hostagent] Forwarding "/run/lima-guestagent.sock" (guest) to "/Users/james/.lima/lima/ga.sock" (host)
+INFO[0051] [hostagent] Guest agent is running
+INFO[0051] [hostagent] Waiting for the final requirement 1 of 1: "boot scripts must have finished"
+INFO[0051] [hostagent] Not forwarding TCP 0.0.0.0:22
+INFO[0051] [hostagent] Not forwarding TCP [::]:22
+INFO[0091] [hostagent] Waiting for the final requirement 1 of 1: "boot scripts must have finished"
+INFO[0097] [hostagent] The final requirement 1 of 1 is satisfied
+INFO[0098] READY. Run `limactl shell lima` to open the shell.
+
+% limactl shell lima
+james@lima-lima:~$
+```
+
+From this point you can follow the [tutorial](tutorial.md) onwards from the step - 'Check for cgroups v1, it should say tmpfs'
 
 ## Star History
 

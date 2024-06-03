@@ -1,0 +1,27 @@
+# This template requires Lima v0.7.0 or later.
+arch: "x86_64"
+images:
+- location: "http://cloud-images-archive.ubuntu.com/releases/vivid/release-20160203/ubuntu-15.04-server-cloudimg-amd64-disk1.img"
+  arch: "x86_64"
+  digest: "sha256:a348500d04de3352af3944e9dae99a08d60091221e1370941b93bd7a27971568"
+firmware:
+  legacyBIOS: true
+
+mounts: []
+containerd:
+  system: false
+  user: false
+
+provision:
+- mode: boot
+  script: |
+   echo $(hostname -I | awk {'print $1'}) lima-{{.Name}} | sudo tee -a /etc/hosts
+   wget --no-check-certificate https://curl.se/ca/cacert.pem -O /usr/local/share/ca-certificates/cacert.crt
+   rm -rf /etc/ssl/certs/*
+   update-ca-certificates --fresh
+   sed -i 's|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' /etc/cloud/cloud.cfg
+   sed -i 's|http://security.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g' /etc/cloud/cloud.cfg
+- mode: boot
+  script: |
+   printf '#!/bin/sh\nif [ "$2" = "enable" -a "$3" = "--now" ]; then /bin/systemctl $1 enable $4; /bin/systemctl $1 start $4; else /bin/systemctl "$@"; fi\n' >/usr/local/bin/systemctl
+   chmod 755 /usr/local/bin/systemctl
