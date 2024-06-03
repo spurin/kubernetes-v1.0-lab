@@ -44,7 +44,7 @@ ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y
 SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 ```
 
-Create a cloudinit config that sets the ubuntu password to "update" and injects our public ssh key, we'll use these when we start our vm -
+Create a cloudinit config that sets the ubuntu password to "ubuntu" and injects our public ssh key, we'll use these when we start our vm -
 
 ```bash
 echo -e "#cloud-config\nhostname: ubuntu\nmanage_etc_hosts: true\npassword: ubuntu\nchpasswd: { expire: False }\nssh_pwauth: True\nssh_authorized_keys:\n  - ${SSH_PUBLIC_KEY}" > user-data; cloud-localds user-data.img user-data
