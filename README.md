@@ -23,7 +23,7 @@ Together, they've crafted this engaging tutorial. Dive in, have fun, and join us
 Start the instance with  -
 
 ```
-limactl start --tty=false --cpus 2 --memory 8 limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml
+limactl start --tty=false --cpus 2 --memory 8 https://raw.githubusercontent.com/spurin/kubernetes-v1.0-lab/main/lima.yaml
 ```
 
 Example usage -
