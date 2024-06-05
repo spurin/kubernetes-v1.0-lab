@@ -69,6 +69,10 @@ Try out the [Interactive Kubernetes Timeline!](https://blog.risingstack.com/the-
 
 _Interactive Kubernetes Timeline Credit - Ferenc Hámori - https://blog.risingstack.com/the-history-of-kubernetes_
 
+## See Also
+
+- [Kubernetes v0.1 Lab](https://github.com/spurin/kubernetes-v0.1-lab)
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=spurin/kubernetes-v1.0-lab&type=Date)](https://star-history.com/#spurinkubernetes-v1.0-lab&Date)
