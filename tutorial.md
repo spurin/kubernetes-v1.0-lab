@@ -82,7 +82,7 @@ Our system certificates are also out of date, preventing the use of TLS with ext
 sudo wget --no-check-certificate https://curl.se/ca/cacert.pem -O /usr/local/share/ca-certificates/cacert.crt; sudo rm -rf /etc/ssl/certs/*; sudo update-ca-certificates --fresh
 ```
 
-#### Star here when using Lima
+#### Start here when using Lima
 Check for cgroups v1, it should say tmpfs -
 
 ```bash
