@@ -59,7 +59,7 @@ james@lima-lima:~$
 
 From this point you can follow the [tutorial](tutorial.md) onwards from the step - [Check for cgroups v1, it should say tmpfs](tutorial.md#Start-here-when-using-Lima)
 
-## Interactive Timeline
+## Interactive Kubernetes Timeline
 
 Try out the [Interactive Kubernetes Timeline!](https://blog.risingstack.com/the-history-of-kubernetes) 🚀
 
