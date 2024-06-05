@@ -57,7 +57,7 @@ INFO[0098] READY. Run `limactl shell lima` to open the shell.
 james@lima-lima:~$
 ```
 
-From this point you can follow the [tutorial](tutorial.md) onwards from the step - 'Check for cgroups v1, it should say tmpfs'
+From this point you can follow the [tutorial](tutorial.md) onwards from the step - [Check for cgroups v1, it should say tmpfs](tutorial.md#star-here-when-using-lima)
 
 ## Star History
 
