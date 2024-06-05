@@ -61,13 +61,13 @@ From this point you can follow the [tutorial](tutorial.md) onwards from the step
 
 ## Interactive Timeline
 
-Try out the Interactive [Kubernetes Timeline!](https://spurin.com/kubernetes-v1.0-lab/timeline.html) 🚀
+Try out the [Interactive Kubernetes Timeline!](https://blog.risingstack.com/the-history-of-kubernetes) 🚀
 
 <p align="center">
-  <a href="https://spurin.com/kubernetes-v1.0-lab/timeline.html"><img width="100%" src="timeline.jpg" /></a>
+  <a href="https://blog.risingstack.com/the-history-of-kubernetes"><img width="100%" src="timeline.jpg" /></a>
 </p>
 
-_Interactive Timeline credit - https://blog.risingstack.com/the-history-of-kubernetes_
+_Interactive Kubernetes Timeline Credit - Ferenc Hámori - https://blog.risingstack.com/the-history-of-kubernetes_
 
 ## Star History
 
