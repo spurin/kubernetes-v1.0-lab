@@ -59,10 +59,15 @@ james@lima-lima:~$
 
 From this point you can follow the [tutorial](tutorial.md) onwards from the step - [Check for cgroups v1, it should say tmpfs](tutorial.md#star-here-when-using-lima)
 
-<iframe src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1dsPW23Jn2tQe2yEfUXHDK9osTd_GSAJ_SC2OsB7nbZA&amp;font=Default&amp;lang=en&amp;initial_zoom=2&amp;height=650" width="100%" height="650" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" frameborder="0"></iframe>
+## Interactive Timeline
 
-_Timeline credit by https://blog.risingstack.com/the-history-of-kubernetes_
+Try out the Interactive [Kubernetes Timeline!](https://spurin.com/kubernetes-v1.0-lab/timeline.html) 🚀
 
+<p align="center">
+  <a href="https://spurin.com/kubernetes-v1.0-lab/timeline.html"><img width="100%" src="timeline.jpg" /></a>
+</p>
+
+_Interactive Timeline credit - https://blog.risingstack.com/the-history-of-kubernetes_
 
 ## Star History
 
