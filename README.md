@@ -59,6 +59,11 @@ james@lima-lima:~$
 
 From this point you can follow the [tutorial](tutorial.md) onwards from the step - [Check for cgroups v1, it should say tmpfs](tutorial.md#star-here-when-using-lima)
 
+<iframe src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1dsPW23Jn2tQe2yEfUXHDK9osTd_GSAJ_SC2OsB7nbZA&amp;font=Default&amp;lang=en&amp;initial_zoom=2&amp;height=650" width="100%" height="650" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" frameborder="0"></iframe>
+
+_Timeline credit by https://blog.risingstack.com/the-history-of-kubernetes_
+
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=spurin/kubernetes-v1.0-lab&type=Date)](https://star-history.com/#spurinkubernetes-v1.0-lab&Date)
